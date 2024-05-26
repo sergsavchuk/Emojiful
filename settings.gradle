@@ -31,4 +31,4 @@ plugins {
 
 
 rootProject.name = 'Emojiful'
-include("Common", "Fabric", "NeoForge", "Forge")
+include("Fabric")
