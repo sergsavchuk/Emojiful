@@ -1,6 +1,7 @@
 name: Publish action
 
 on:
+  workflow_dispatch:
   create:
     tag:
       - '*'
@@ -23,31 +24,11 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
-      - name: Publish Minecraft Mods Fabric
-        uses: Kir-Antipov/mc-publish@v2.1
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
         with:
-          curseforge-id: 284324
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          files-primary: Fabric/build/libs/!(*-@(javadoc|sources)).jar
-          files-secondary: Fabric/build/libs/*-@(javadoc|sources).jar
-          version-type: release
-          loaders: |
-            fabric
-            quilt
-          game-versions: 1.20.1
-          java: 17
-          name: ""
-          changelog: "https://github.com/InnovativeOnlineIndustries/Emojiful/commits/1.20"
-      - name: Publish Minecraft Mods Forge
-        uses: Kir-Antipov/mc-publish@v2.1
-        with:
-          curseforge-id: 284324
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-          files-primary: Forge/build/libs/!(*-@(javadoc|sources)).jar
-          files-secondary: Forge/build/libs/*-@(javadoc|sources).jar
-          version-type: release
-          loaders: forge
-          game-versions: 1.20.1
-          java: 17
-          name: ""
-          changelog: "https://github.com/InnovativeOnlineIndustries/Emojiful/commits/1.20"
+          name: libs
+          path: |
+            Fabric/build/libs/!(*-@(javadoc|sources)).jar
+            Fabric/build/libs/*-@(javadoc|sources).jar
+            
